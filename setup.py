@@ -4,7 +4,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="envmgr-healthchecks",
-    version="0.0.1",
+    version="0.0.2",
     description='Consul Deployment Agent - Health Checks',
     long_description="",
     url='https://github.com/trainline/healthcheck-registrar',
