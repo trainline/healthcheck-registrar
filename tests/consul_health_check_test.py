@@ -4,8 +4,8 @@
 import unittest
 
 from mock import Mock, MagicMock, patch
-from modules.health_checks.lib.health_checks.health_check_errors import RegisterError
-from modules.health_checks.lib.health_checks.consul_health_check import ConsulHealthCheck
+from envmgr_healthchecks.health_checks.health_check_errors import RegisterError
+from envmgr_healthchecks.health_checks.consul_health_check import ConsulHealthCheck
 
 
 HEALTHCHECKS = {

@@ -2,9 +2,9 @@
 
 import os
 import stat
-from modules.health_checks.lib.health_checks.health_check import HealthCheck
-from modules.health_checks.lib.health_checks.health_check_errors import RegisterError
-from modules.health_checks.lib.api.consul.consul_config import ConsulConfig
+from envmgr_healthchecks.health_checks.health_check import HealthCheck
+from envmgr_healthchecks.health_checks.health_check_errors import RegisterError
+from envmgr_healthchecks.api.consul.consul_config import ConsulConfig
 
 
 class ConsulHealthCheck(HealthCheck):

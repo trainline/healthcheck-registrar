@@ -7,8 +7,8 @@ import sys
 import re
 import yaml
 from jsonschema import Draft4Validator
-from modules.health_checks.lib.health_checks.health_check import HealthCheck
-from modules.health_checks.lib.health_checks.health_check_errors import RegisterError
+from envmgr_healthchecks.health_checks.health_check import HealthCheck
+from envmgr_healthchecks.health_checks.health_check_errors import RegisterError
 
 
 class SensuHealthCheck(HealthCheck):

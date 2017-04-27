@@ -4,8 +4,8 @@
 import unittest
 from jsonschema import ValidationError
 from mock import Mock, patch
-from modules.health_checks.lib.health_checks.health_check_errors import RegisterError
-from modules.health_checks.lib.health_checks.sensu_heath_check import SensuHealthCheck
+from envmgr_healthchecks.health_checks.health_check_errors import RegisterError
+from envmgr_healthchecks.health_checks.sensu_heath_check import SensuHealthCheck
 
 
 class MockLogger(object):
