@@ -5,7 +5,6 @@ import stat
 import json
 import sys
 import re
-import yaml
 from jsonschema import Draft4Validator
 from envmgr_healthchecks.health_checks.health_check import HealthCheck
 from envmgr_healthchecks.health_checks.health_check_errors import RegisterError
@@ -25,6 +24,8 @@ class SensuHealthCheck(HealthCheck):
         self.last_archive_dir = kwargs.get('last_archive_dir', None)
         self.archive_dir = kwargs.get('archive_dir', None)
         self.appspec = kwargs.get('appspec', None)
+        self.check_id = kwargs.get('check_id', None)
+        self.check = kwargs.get('check', None)
         self.schema = self._get_schema()
 
     def deregister(self):
@@ -52,7 +53,7 @@ class SensuHealthCheck(HealthCheck):
                     if os.path.exists(check_definition_absolute_path):
                         os.remove(check_definition_absolute_path)
 
-    def register(self, check_id, check):
+    def register(self):
         """ Register this health check """
         self.logger.info('Registering Sensu checks.')
         (sensu_checks, scripts_base_dir) = self.find_health_checks(
@@ -64,7 +65,7 @@ class SensuHealthCheck(HealthCheck):
             sensu_checks, scripts_base_dir)
         for check_id, check in sensu_checks.iteritems():
             self._register_check(
-                check_id, check)
+                self.check_id, self.check)
 
     def _create_sensu_definition_filename(self, service_id, check_id):
         return '{0}-{1}.json'.format(service_id, check_id)
