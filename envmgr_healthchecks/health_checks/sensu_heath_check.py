@@ -26,6 +26,7 @@ class SensuHealthCheck(HealthCheck):
         self.appspec = kwargs.get('appspec', None)
         self.check_id = kwargs.get('check_id', None)
         self.check = kwargs.get('check', None)
+        self.logger = kwargs.get('logger', self.logger)
         self.schema = self._get_schema()
 
     def deregister(self):
