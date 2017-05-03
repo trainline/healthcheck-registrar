@@ -1,15 +1,19 @@
 """ Health Check """
 
 import os
-import yaml
 import logging
+import yaml
+
+from envmgr_healthchecks.health_checks.check_formatter import CheckFormatter
 
 
 class HealthCheck(object):
     """ Health Check Base """
+
     def __init__(self, name=None):
         self.logger = logging.getLogger("HealthCheck")
         self.name = name
+        self.check_formatter = CheckFormatter()
 
     def create_service_check_id(self, service_id, check_id):
         """ create a service id """

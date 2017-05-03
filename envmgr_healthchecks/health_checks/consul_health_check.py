@@ -22,6 +22,7 @@ class ConsulHealthCheck(HealthCheck):
             api: default will be constructed if you do not provide one
             last_id:
             last_archive_dir:
+            port: port for the service
         """
         HealthCheck.__init__(self, name=kwargs.get('name', ''))
         self.logger = kwargs.get('logger', self.logger)
@@ -32,6 +33,7 @@ class ConsulHealthCheck(HealthCheck):
         self.api = ConsulConfig().get(kwargs.get('api', None))
         self.last_id = kwargs.get('last_id', None)
         self.last_archive_dir = kwargs.get('last_architve_dir', None)
+        self.port = kwargs.get('port', None)
 
     def register(self):
         """ Register this health check """
@@ -50,12 +52,13 @@ class ConsulHealthCheck(HealthCheck):
             deployment_slice = None
 
         for check_id, check in healthchecks.iteritems():
+            formatted_check = self.check_formatter.format(check=check, info={'port': self.port})
             service_check_id = self.create_service_check_id(
                 self.service_id, check_id)
 
-            if check['type'] == 'script':
+            if formatted_check['type'] == 'script':
                 file_path = os.path.join(
-                    self.archive_dir, scripts_base_dir, check['script'])
+                    self.archive_dir, scripts_base_dir, formatted_check['script'])
 
                 # Add execution permission to file
                 file_stats = os.stat(file_path)
@@ -71,16 +74,16 @@ class ConsulHealthCheck(HealthCheck):
                 is_success = self.api.register_script_check(
                     self.service_id,
                     service_check_id,
-                    check['name'],
+                    formatted_check['name'],
                     file_path,
-                    check['interval'])
-            elif check['type'] == 'http':
+                    formatted_check['interval'])
+            elif formatted_check['type'] == 'http':
                 is_success = self.api.register_http_check(
                     self.service_id,
                     service_check_id,
-                    check['name'],
-                    check['http'],
-                    check['interval'])
+                    formatted_check['name'],
+                    formatted_check['http'],
+                    formatted_check['interval'])
             else:
                 is_success = False
 

@@ -24,9 +24,8 @@ class SensuHealthCheck(HealthCheck):
         self.last_archive_dir = kwargs.get('last_archive_dir', None)
         self.archive_dir = kwargs.get('archive_dir', None)
         self.appspec = kwargs.get('appspec', None)
-        self.check_id = kwargs.get('check_id', None)
-        self.check = kwargs.get('check', None)
         self.logger = kwargs.get('logger', self.logger)
+        self.port = kwargs.get('port', None)
         self.schema = self._get_schema()
 
     def deregister(self):
@@ -65,8 +64,8 @@ class SensuHealthCheck(HealthCheck):
         self._validate_checks(
             sensu_checks, scripts_base_dir)
         for check_id, check in sensu_checks.iteritems():
-            self._register_check(
-                self.check_id, self.check)
+            formatted_check = self.check_formatter.format(check=check, info={'port': self.port})
+            self._register_check(check_id, formatted_check)
 
     def _create_sensu_definition_filename(self, service_id, check_id):
         return '{0}-{1}.json'.format(service_id, check_id)
